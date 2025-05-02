@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/botildenborg-map/static/css/main.c2455f9e.css",
+    "main.js": "/botildenborg-map/static/js/main.8e6b8f3c.js",
+    "index.html": "/botildenborg-map/index.html",
+    "main.c2455f9e.css.map": "/botildenborg-map/static/css/main.c2455f9e.css.map",
+    "main.8e6b8f3c.js.map": "/botildenborg-map/static/js/main.8e6b8f3c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c2455f9e.css",
+    "static/js/main.8e6b8f3c.js"
+  ]
+}
