@@ -1,0 +1,51 @@
+.table-container {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.editable-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.editable-table th, .editable-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.editable-table input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.save-btn,
+.export-btn {
+  padding: 10px 16px;
+  margin-right: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.export-btn {
+  background-color: #2196f3;
+}
+
+.save-btn:hover,
+.export-btn:hover {
+  opacity: 0.85;
+}
+
