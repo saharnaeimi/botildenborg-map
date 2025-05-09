@@ -4,9 +4,14 @@ import 'leaflet/dist/leaflet.css';
 import arcgisToGeoJSON from '@esri/arcgis-to-geojson-utils';
 import L from 'leaflet';
 import './App.css';
-import { useNavigate } from 'react-router-dom'; // 👈 import this!
+import { useNavigate } from 'react-router-dom';
 
 const center = [55.577525, 13.052322];
+
+const infrastructureNames = [
+  'Path', 'Compost area', 'Pond', 'Tools1', 'Tools2', 'Tools3', 'Kitchen Garden-Path',
+  'Fridge', 'Farm Shop', 'Washing Station', 'Fire area', 'Building,Restaurant,Kitchen', 'Pergola', 'Pots area'
+];
 
 function ZoomListener() {
   const map = useMap();
@@ -20,9 +25,7 @@ function ZoomListener() {
     };
     updateLabelFontSize();
     map.on('zoomend', updateLabelFontSize);
-    return () => {
-      map.off('zoomend', updateLabelFontSize);
-    };
+    return () => map.off('zoomend', updateLabelFontSize);
   }, [map]);
   return null;
 }
@@ -81,10 +84,10 @@ const getStyle = (feature) => {
 
 function App() {
   const [geoData, setGeoData] = useState(null);
-  const navigate = useNavigate(); // 👈 get the router
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/Botildenborg.json')
+    fetch(process.env.PUBLIC_URL + '/Botildenborg.json')
       .then((res) => res.json())
       .then((data) => {
         const geojson = arcgisToGeoJSON.arcgisToGeoJSON(data);
@@ -113,7 +116,10 @@ function App() {
       layer.on('popupopen', () => {
         const btn = document.getElementById(`edit-${id}`);
         if (btn) {
-          btn.onclick = () => navigate(`/edit/${id}`, { state: { name: name } });
+          const route = infrastructureNames.includes(name)
+            ? `/infra-edit/${id}`
+            : `/edit/${id}`;
+          btn.onclick = () => navigate(route, { state: { name: name } });
         }
       });
 
@@ -124,25 +130,50 @@ function App() {
     }
   };
 
-  return (
-  <div className="App">
-    <h1 className="page-title">Botildenborg Garden Management</h1>
-    <MapContainer
-      center={center}
-      zoom={18}
-      minZoom={18}
-      maxZoom={22}
-      style={{ height: 'calc(100vh - 100px)', width: '100%' }}
-    >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {geoData && (
-        <GeoJSON data={geoData} onEachFeature={onEachFeature} style={getStyle} />
-      )}
-      {geoData && <FitBounds geoData={geoData} />}
-      {geoData && <ZoomListener />}
-    </MapContainer>
-  </div>
-);
+  // --- Right side button click handlers ---
+  const handleButtonClick = (message) => {
+    alert(message);
+  };
 
+  return (
+    <div className="App">
+      <h1 className="page-title">Botildenborg Garden Management</h1>
+
+      {/* Right-side buttons */}
+      <div className="side-buttons">
+        <button onClick={() => handleButtonClick("This button will allow you to see this week's activities as a single table.")}>
+          📅 Weekly Summary
+        </button>
+        <button onClick={() => handleButtonClick("This button will let you set a garden alert and notify other staff about emergencies.")}>
+          🚨 Set Alerts
+        </button>
+        <button onClick={() => handleButtonClick("This button will let you create and edit the staff's weekly meeting agenda.")}>
+          🧑‍🤝‍🧑 Team Schedule
+        </button>
+        <button onClick={() => handleButtonClick("This button will allow you to see some statistics, like the harvest or planting trends over time.")}>
+          📊 Garden Analytics
+        </button>
+        <button onClick={() => handleButtonClick("This button will allow you to share garden photos with other staff.")}>
+          📸 Upload Photos
+        </button>
+      </div>
+
+      <MapContainer
+        center={center}
+        zoom={18}
+        minZoom={18}
+        maxZoom={22}
+        style={{ height: 'calc(100vh - 100px)', width: '100%' }}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {geoData && (
+          <GeoJSON data={geoData} onEachFeature={onEachFeature} style={getStyle} />
+        )}
+        {geoData && <FitBounds geoData={geoData} />}
+        {geoData && <ZoomListener />}
+      </MapContainer>
+    </div>
+  );
 }
+
 export default App;

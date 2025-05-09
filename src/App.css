@@ -47,4 +47,28 @@
   font-size: var(--label-font-size, 10px) !important;
 }
 
+.side-buttons {
+  position: absolute;
+  top: 120px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.side-buttons button {
+  width: 180px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.side-buttons button:hover {
+  background-color: #e6e6e6;
+}
 
